@@ -1,0 +1,38 @@
+name: Bug report
+description: Report a defect in runtime behavior, build, or release automation.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Include expected behavior and actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Provide exact commands and terminal details.
+      placeholder: |
+        1. make clean && make build
+        2. make run
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, shell, terminal emulator.
+      placeholder: Linux x86_64, bash, GNOME Terminal
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs/output
+      description: Paste relevant output from `make verify` or runtime errors.
+      render: shell
