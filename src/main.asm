@@ -116,6 +116,7 @@ _start:
     mov r8, -1
     xor r9, r9
     syscall
+    test rax, rax
     js .fatal_exit
     mov [arena_ptr], rax
     mov [char_buffer], rax
@@ -131,8 +132,9 @@ _start:
     mov rsi, TCGETS
     mov rdx, offset orig_termios
     syscall
+    test rax, rax
     js .after_termios_setup
-    
+
     mov rcx, 16
     mov rsi, offset orig_termios
     mov rdi, offset raw_termios
@@ -144,6 +146,7 @@ _start:
     mov rsi, TCSETS
     mov rdx, offset raw_termios
     syscall
+    test rax, rax
     js .after_termios_setup
     mov dword ptr [termios_active], 1
 
@@ -158,6 +161,7 @@ _start:
     mov rdx, rsp
     syscall
     add rsp, 8
+    test rax, rax
     js .no_nonblock_input
     mov dword ptr [input_enabled], 1
 
@@ -169,6 +173,7 @@ _start:
     mov rsi, offset hide_cursor
     mov rdx, hide_len
     syscall
+    test rax, rax
     js .cleanup_error
 
     # Safe defaults (used if winsize ioctl fails)
@@ -182,6 +187,7 @@ _start:
     mov rsi, TIOCGWINSZ
     mov rdx, offset winsize_buf
     syscall
+    test rax, rax
     js .have_dims
     
     movzx rax, word ptr [winsize_buf + 2] # ws_col
@@ -477,9 +483,9 @@ _start:
     mov rsi, offset clear_screen
     mov rdx, clear_len
     syscall
+    test rax, rax
     js .cleanup
-    
-    mov rax, SYS_WRITE
+
     mov rdi, STDOUT
     mov rsi, [char_buffer]
     mov eax, [screen_w]
@@ -487,7 +493,9 @@ _start:
     imul eax, ebx
     add eax, ebx
     mov rdx, rax
+    mov rax, SYS_WRITE
     syscall
+    test rax, rax
     js .cleanup
     
     mov rax, SYS_NANOSLEEP
