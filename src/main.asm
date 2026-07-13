@@ -40,7 +40,10 @@
 .section .data
     clear_screen:    .ascii "\x1b[2J\x1b[H"
     .set clear_len, . - clear_screen
-    
+
+    home_cursor:     .ascii "\x1b[H"
+    .set home_len, . - home_cursor
+
     hide_cursor:     .ascii "\x1b[?25l\x1b[?1000h\x1b[?1002h"
     .set hide_len, . - hide_cursor
     
@@ -85,10 +88,12 @@
     # Dynamic Screen Info
     .lcomm screen_w, 4
     .lcomm screen_h, 4
+    .lcomm prev_screen_w, 4
+    .lcomm prev_screen_h, 4
     .lcomm half_w, 4
     .lcomm half_h, 4
     .lcomm k1_scale, 4
-    
+
     # FPU Scratchpad
     .lcomm sin_a, 4
     .lcomm cos_a, 4
@@ -478,10 +483,28 @@ _start:
     fstp st(0)
 
     # 8. Flush Buffer
-    mov rax, SYS_WRITE
-    mov rdi, STDOUT
+    # Only fully erase the display when the terminal size changed (or on the
+    # first frame); otherwise just home the cursor and repaint in place. Every
+    # cell is rewritten each frame anyway, so a full erase every frame just
+    # causes visible flicker/tearing for no benefit.
+    mov eax, [screen_w]
+    mov ebx, [screen_h]
+    cmp eax, [prev_screen_w]
+    jne .need_full_clear
+    cmp ebx, [prev_screen_h]
+    jne .need_full_clear
+    mov rsi, offset home_cursor
+    mov rdx, home_len
+    jmp .clear_seq_ready
+.need_full_clear:
     mov rsi, offset clear_screen
     mov rdx, clear_len
+.clear_seq_ready:
+    mov [prev_screen_w], eax
+    mov [prev_screen_h], ebx
+
+    mov rax, SYS_WRITE
+    mov rdi, STDOUT
     syscall
     test rax, rax
     js .cleanup
