@@ -1,2 +1,2 @@
 3a14b47344f2a281a8970fd7ac7596aab572db1fd090841cd34120ce8f86ee09  dist/donut-linux-x86_64
-cdba23a5fb896165973ad70d54c21379c3b6460f2f6fc3061f0673c20595f946  dist/donut-linux-x86_64.tar.gz
+789d512f9cee33a283efbecae32f04bd36a7adb3cab9cc6865e28d85f7a8fd9b  dist/donut-linux-x86_64.tar.gz

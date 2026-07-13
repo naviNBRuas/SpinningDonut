@@ -6,6 +6,14 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ## [Unreleased]
 
+### Added
+- `assets/demo.gif`, an animated capture of the renderer, embedded in the README.
+
+### Changed
+- Consolidated the README, which had accidentally duplicated its own content, into a single coherent document.
+
+## [1.0.2] - 2026-07-13
+
 ### Changed
 - Slowed the rotation speed (`step_a` 0.04 -> 0.018, `step_b` 0.02 -> 0.009, roughly half) for a more relaxed spin.
 
