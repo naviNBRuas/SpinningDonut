@@ -6,6 +6,12 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ## [Unreleased]
 
+### Fixed
+- Critical: the frame-flush write clobbered the `SYS_WRITE` syscall number with the screen dimensions before issuing the syscall, so the rendered torus was never actually written to the terminal (only the clear-screen escape sequence was emitted each frame).
+- Syscall error checks (`js` after `syscall`) were testing stale flags left over from earlier arithmetic instead of the syscall's actual return value, since `syscall`/`sysret` do not derive flags from `rax`. All syscall sites now `test rax, rax` immediately before branching on error.
+- Removed unused `src/entry.S`, a dead C-runtime-style entry stub that called a nonexistent `main` and was never referenced by the build.
+- `scripts/test-workflows.sh` copied the real repository's `.git` directory (including its configured `origin` remote) into its local release simulation sandbox, causing `git remote add origin` to fail; the simulation now excludes `.git` and builds a clean throwaway repo. Also added a tag message so local simulated tagging works under `tag.gpgsign` configurations.
+
 ## [1.0.0] - 2026-04-03
 
 ### Added

@@ -36,7 +36,7 @@ SIM_REMOTE=".tools/tmp/release-remote.git"
 rm -rf "$SIM_ROOT" "$SIM_REMOTE"
 mkdir -p "$SIM_ROOT"
 
-tar --exclude="$SIM_ROOT" -cf - . | tar -C "$SIM_ROOT" -xf -
+tar --exclude="$SIM_ROOT" --exclude="./.git" -cf - . | tar -C "$SIM_ROOT" -xf -
 
 pushd "$SIM_ROOT" >/dev/null
 git init -q
@@ -57,7 +57,7 @@ make verify >/dev/null
 if git rev-parse "$TAG" >/dev/null 2>&1; then
   echo "[wf-test] tag $TAG already exists"
 else
-  git tag "$TAG"
+  git tag -m "$TAG" "$TAG"
   echo "[wf-test] created local tag $TAG"
 fi
 
