@@ -15,12 +15,19 @@ A pure **x86-64 Linux assembly** spinning torus renderer for terminal output —
 
 ## Demo
 
-Run the app and enjoy the rotating donut in your terminal:
+![SpinningDonut demo](assets/demo.gif)
+
+Run it yourself:
 
 - Build: `make build`
 - Run: `make run`
 
 Exit with `Ctrl+C`.
+
+## Controls
+
+- `Ctrl+C`: quit
+- Mouse movement: adjusts rotation angles when terminal mouse reporting is available
 
 ## Requirements
 
@@ -54,72 +61,18 @@ This performs a clean rebuild, runtime smoke checks, output sanity checks, artif
 - `make verify` — comprehensive validation pipeline
 - `make workflow-test` — workflow lint + local release simulation
 - `make package` — generate release artifacts in `dist/`
-# SpinningDonut
-
-**SpinningDonut v1.0.0** is a pure x86-64 Linux assembly torus renderer for the terminal.
-
-No libc. No runtime framework. Just syscalls, floating-point math, z-buffering, and a very overengineered ASCII donut.
-
-## Features
-
-- Pure assembly renderer in `src/main.asm`
-- Dynamic terminal sizing with safety clamping
-- Z-buffered shading using luminance ramp characters
-- Optional mouse-driven angle interaction (terminal-dependent)
-- Hardened syscall/error handling and safe terminal state restoration
-- Static output binary built with reproducible Make targets
-
-## Quick Start
-
-```bash
-make build
-make run
-```
-
-Exit with `Ctrl+C`.
-
-## Requirements
-
-- Linux (x86-64)
-- `gcc`
-- `make`
-- `timeout` (used by smoke validation)
-
-## Build & Validation
-
-```bash
-make build
-make smoke-test
-make verify
-```
-
-- `make build` builds the static executable
-- `make smoke-test` runs a short runtime check
-- `make verify` runs the full validation pipeline
-
-## Controls
-
-- `Ctrl+C`: quit
-- Mouse movement: adjusts rotation angles when terminal mouse reporting is available
 
 ## Project Layout
 
 - `src/main.asm` — renderer and runtime
 - `Makefile` — build/run/validation/package targets
 - `scripts/validate.sh` — strict local validation script
+- `scripts/test-workflows.sh` — local CI/release workflow simulation
+- `assets/demo.gif` — README demo capture
 - `CONTRIBUTING.md` — contribution guidelines
 - `SECURITY.md` — security reporting policy
 - `CHANGELOG.md` — release history
 - `LICENSE` — MIT
-
-## Publishing Checklist
-
-Before publishing to GitHub (`naviNBRuas`):
-
-1. Run `make clean && make verify`
-2. Commit source and documentation updates
-3. Tag the release as `v1.0.0`
-4. Publish release artifacts
 
 ## License
 
