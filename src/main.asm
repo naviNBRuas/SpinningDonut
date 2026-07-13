@@ -58,8 +58,8 @@
     # State
     angle_a:         .float 0.0
     angle_b:         .float 0.0
-    step_a:          .float 0.04
-    step_b:          .float 0.02
+    step_a:          .float 0.018
+    step_b:          .float 0.009
     
     # Constants
     const_2pi:       .float 6.28318

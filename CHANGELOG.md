@@ -7,6 +7,11 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 ## [Unreleased]
 
 ### Changed
+- Slowed the rotation speed (`step_a` 0.04 -> 0.018, `step_b` 0.02 -> 0.009, roughly half) for a more relaxed spin.
+
+## [1.0.1] - 2026-07-13
+
+### Changed
 - The frame-flush now only issues a full `\x1b[2J` screen erase on the first frame or when the terminal is resized; every other frame just homes the cursor (`\x1b[H`) and repaints in place, since the whole grid is rewritten every frame anyway. This removes the per-frame full-screen erase that caused visible flicker/tearing in the spinning animation.
 
 ## [1.0.0] - 2026-04-03
